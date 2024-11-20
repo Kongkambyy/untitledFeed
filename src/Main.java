@@ -12,16 +12,39 @@ public class Main {
     private static String authenticatedUser = null;
 
 
-
     public static void main(String[] args) {
 
-        while (true) {
+        boolean isAuthenticated = false;
+
+        while (!isAuthenticated) {
             System.out.println("\n--- Velkommen til banksystemet ---");
+            System.out.println("1. Log ind");
+            System.out.println("2. Registrer en ny bruger");
+            System.out.println("3. Afslut programmet");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1 -> isAuthenticated = login();
+                case 2 -> {
+                    opretBruger();
+                    System.out.println("Du har nu registreret dig til banksystemet.");
+                }
+                case 3 -> {
+                    System.out.println("Programmet bliver nu afsluttet");
+                    scanner.close();
+                    return;
+                }
+                default -> System.out.println("Ugyldigt valg.");
+            }
+        }
+
+        while (true) {
             System.out.println("1. Se dit kontonummer og saldo");
             System.out.println("2. Indskyd penge til din konto");
             System.out.println("3. Hæv penge fra din konto");
-            System.out.println("4. Opret en bruger i banksystemet");
-            System.out.println("5. Afslut");
+            System.out.println("4. Afslut");
             System.out.println("Vælg en af ovenstående muligheder: ");
 
             int choice = scanner.nextInt();
@@ -44,10 +67,6 @@ public class Main {
                 }
 
                 case 4 -> {
-                    opretBruger();
-                }
-
-                case 5 -> {
                     System.out.println("Afslutter programmet...");
                     scanner.close();
                     return;
@@ -58,7 +77,6 @@ public class Main {
             }
         }
     }
-
 
     public static boolean login() {
 
@@ -79,6 +97,7 @@ public class Main {
             System.out.println("Du loggede ind klokken: " + now);
             return true;
         } else {
+            System.out.println("Du har indtastet et forkert brugernavn eller adgangskode. Prøv igen");
             return false;
         }
     }
@@ -160,6 +179,7 @@ public class Main {
 
         System.out.println("Kontoinformationer for bruger: " + authenticatedUser);
         System.out.println("Saldo: " + userBankInfo.getBalance() + " DKK");
+        afslutEllerTilbage();
 
     }
 
@@ -178,6 +198,7 @@ public class Main {
 
             case 2 -> {
                 System.out.println("Programmet bliver nu afsluttet, tak for at benytte dig af banksystemet");
+                scanner.close();
             }
             default -> System.out.println("Ugyldigt valg");
         }
